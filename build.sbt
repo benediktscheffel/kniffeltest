@@ -26,6 +26,9 @@ lazy val root = project
       Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
       "utf-8"),*/
   )
+  import org.scoverage.coveralls.Imports.CoverallsKeys._
+
+  coverallsToken := Some("U1iD9Shz7jvudCSbMqPeLZ0DhvEKxjQ9K")
 
   coverageHighlighting := true
   coverageFailOnMinimum := false
