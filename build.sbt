@@ -10,7 +10,6 @@ lazy val root = project
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
-//    libraryDependencies += "org.scoverage" % "scalac-scoverage-domain_3" % "2.0.7"  
   )
   import org.scoverage.coveralls.Imports.CoverallsKeys._
 
@@ -29,5 +28,3 @@ lazy val root = project
   
   publishArtifact in Test := false
   parallelExecution in Test := false
-
-  //.enablePlugins(JacocoCoverallsPlugin)
