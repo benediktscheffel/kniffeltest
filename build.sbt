@@ -29,7 +29,8 @@ lazy val root = project
   import org.scoverage.coveralls.Imports.CoverallsKeys._
 
   coverallsToken := sys.env.get("COVERALLS_REPO_TOKEN")
-
+  coverallsService := "github-actions"
+  
   coverageHighlighting := true
   coverageFailOnMinimum := false
   coverageMinimumStmtTotal := 60
