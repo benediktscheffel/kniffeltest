@@ -25,10 +25,10 @@ coverageHighlighting := true
 coverageFailOnMinimum := false
 coverageMinimumStmtTotal := 70
 coverageMinimumBranchTotal := 70
-coverageMinimumStmtPerPackage := 70
-coverageMinimumBranchPerPackage := 70
-coverageMinimumStmtPerFile := 70
-coverageMinimumBranchPerFile := 70
+coverageMinimumStmtPerPackage := 0
+coverageMinimumBranchPerPackage := 0
+coverageMinimumStmtPerFile := 0
+coverageMinimumBranchPerFile := 0
 
 
 publishArtifact in Test := false
