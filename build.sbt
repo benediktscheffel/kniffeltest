@@ -34,10 +34,10 @@ lazy val root = project
   coverageFailOnMinimum := false
   coverageMinimumStmtTotal := 60
   coverageMinimumBranchTotal := 60
-  coverageMinimumStmtPerPackage := 60
-  coverageMinimumBranchPerPackage := 60
-  coverageMinimumStmtPerFile := 60
-  coverageMinimumBranchPerFile := 60
+  coverageMinimumStmtPerPackage := 0
+  coverageMinimumBranchPerPackage := 0
+  coverageMinimumStmtPerFile := 0
+  coverageMinimumBranchPerFile := 0
   
   
   publishArtifact in Test := false
