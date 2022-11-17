@@ -1,3 +1,4 @@
+import org.scoverage.coveralls.GitHubActions
 val scala3Version = "3.2.0"
 
 lazy val root = project
@@ -29,7 +30,7 @@ lazy val root = project
   import org.scoverage.coveralls.Imports.CoverallsKeys._
 
   coverallsToken := sys.env.get("COVERALLS_REPO_TOKEN")
-  coverallsService := "github-actions"
+  coverallsService := Some(GitHubActions)
   
   coverageHighlighting := true
   coverageFailOnMinimum := false
