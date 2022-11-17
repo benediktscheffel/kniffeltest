@@ -10,23 +10,6 @@ lazy val root = project
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
-    libraryDependencies += "org.scoverage" % "scalac-scoverage-domain_3" % "2.0.7",
-    /*libraryDependencies ++= Seq(
-      "commons-io"             %  "commons-io"    % "2.11.0",
-      "com.typesafe.akka"      %% "akka-actor"    % "2.6.20",
-      "com.typesafe.akka"      %% "akka-testkit"  % "2.6.20" % "test",
-      "org.scalatest"          %% "scalatest"     % "3.2.14" % "test"
-    )
-    jacocoCoverallsServiceName := "github-actions",
-    jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
-    jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
-    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
-    jacocoReportSettings := JacocoReportSettings(
-      "Jacoco Coverage Report",
-      None,
-      JacocoThresholds(),
-      Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
-      "utf-8"),*/
   )
   import org.scoverage.coveralls.Imports.CoverallsKeys._
 
@@ -45,5 +28,3 @@ lazy val root = project
   
   publishArtifact in Test := false
   parallelExecution in Test := false
-
-  //.enablePlugins(JacocoCoverallsPlugin)
