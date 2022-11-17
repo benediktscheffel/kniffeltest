@@ -28,7 +28,7 @@ lazy val root = project
   )
   import org.scoverage.coveralls.Imports.CoverallsKeys._
 
-  coverallsToken := Some("U1iD9Shz7jvudCSbMqPeLZ0DhvEKxjQ9K")
+  coverallsToken := sys.env.get("COVERALLS_REPO_TOKEN")
 
   coverageHighlighting := true
   coverageFailOnMinimum := false
