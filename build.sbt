@@ -7,17 +7,17 @@ lazy val root = project
     name := "kniffeltest",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    //libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
-    //libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
-    //libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
+    libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
     libraryDependencies += "org.scoverage" % "scalac-scoverage-domain_3" % "2.0.7",
-    libraryDependencies ++= Seq(
+    /*libraryDependencies ++= Seq(
       "commons-io"             %  "commons-io"    % "2.11.0",
       "com.typesafe.akka"      %% "akka-actor"    % "2.6.20",
       "com.typesafe.akka"      %% "akka-testkit"  % "2.6.20" % "test",
       "org.scalatest"          %% "scalatest"     % "3.2.14" % "test"
     )
-    /*jacocoCoverallsServiceName := "github-actions",
+    jacocoCoverallsServiceName := "github-actions",
     jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
     jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
