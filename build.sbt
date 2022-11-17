@@ -1,6 +1,5 @@
 name := "kniffeltest"
 
-organization := "org.scoverage"
 
 version := "1.6.1"
 
