@@ -27,9 +27,6 @@ lazy val root = project
       "utf-8"),*/
   )
 
-  import org.scoverage.coveralls.Imports.CoverallsKeys._
-  coverallsTokenFile := Some("./.coverallsToken")
-
   coverageHighlighting := true
   coverageFailOnMinimum := false
   coverageMinimumStmtTotal := 60
