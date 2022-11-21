@@ -2,7 +2,7 @@ package de.htwg.se.kniffel
 package aview
 
 import controller.Controller
-import model.{DiceCup, Player, Move, Game}
+import model.{Player, Move, Game}
 
 import scala.io.StdIn.readLine
 import util.Observer
@@ -43,7 +43,7 @@ class TUI(controller: Controller) extends Observer :
   def analyseInput(input: String): Option[Move] =
     val list = input.split("\\s").toList
     list.head match
-      case "q" => System.exit(0); None
+      case "q" => None
       case "po" => controller.doAndPublish(controller.putOut, list.tail.map(_.toInt)); None
       case "pi" => controller.doAndPublish(controller.putIn, list.tail.map(_.toInt)); None
       case "d" => controller.doAndPublish(controller.dice()); None
