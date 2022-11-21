@@ -1,13 +1,11 @@
 package de.htwg.se.kniffel
 package controller
 
-
-import model.Field
-import model.DiceCup
-import model.Move
+import scala.annotation.targetName
+import model.{Field, Game, DiceCup, Move}
 import util.Observable
 
-case class Controller(var field: Field, var diceCup: DiceCup) extends Observable:
+case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable:
 
   def doAndPublish(doThis: Move => Field, move: Move): Unit =
     field = doThis(move)
@@ -21,6 +19,21 @@ case class Controller(var field: Field, var diceCup: DiceCup) extends Observable
     diceCup = doThis
     notifyObservers
 
+  @targetName("next")
+  def doAndPublish(doThis: => Game): Unit =
+    game = doThis
+    notifyObservers
+
+  def doAndPublish(doThis: (Int, Int) => Game, sumTop:Int, sumBottom:Int): Unit =
+    game = doThis(sumTop, sumBottom)
+    notifyObservers
+
+  def next(): Option[Game] =
+    game.next()
+
+  def sum(sumTop: Int, sumBottom: Int): Game =
+    game.sum(sumTop, sumBottom)
+
   def putOut(list: List[Int]): DiceCup =
     diceCup.putDicesOut(list)
 
@@ -33,4 +46,5 @@ case class Controller(var field: Field, var diceCup: DiceCup) extends Observable
   def putValToField(move: Move): Field =
     field.put(move.value, move.x, move.y)
 
+  def nextRound() = diceCup.nextRound()
   override def toString: String = field.toString

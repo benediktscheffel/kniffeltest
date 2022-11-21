@@ -25,6 +25,14 @@ class MatrixSpec extends AnyWordSpec {
         val returnedMatrix = matrix.fill(1, 13, "73")
         returnedMatrix.cell(1, 13) should be("73")
       }
+
+      "isEmpty" should {
+        "return state of cell" in {
+          val m = matrix.fill(1, 13, "73")
+          m.isEmpty(1, 13) should be(false)
+          m.isEmpty(1, 1) should be(true)
+        }
+      }
     }
   }
 }

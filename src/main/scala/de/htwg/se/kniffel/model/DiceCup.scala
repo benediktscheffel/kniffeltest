@@ -10,7 +10,10 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
 
   def newThrow(): DiceCup = {
     //assert(remDices > 0)
-    DiceCup(locked, List.fill(5 - locked.size)(Random.between(1, 7)), remDices - 1)
+    if  (remDices >= 0)
+      DiceCup(locked, List.fill(5 - locked.size)(Random.between(1, 7)), remDices - 1)
+    else
+      this
   }
 
   def dropListEntriesFromList(entriesToDelete: List[Int], shortenedList: List[Int], n: Int = 0): List[Int] = {
@@ -22,6 +25,8 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
     else
       shortenedList
   }
+
+  def nextRound(): DiceCup = DiceCup(List.fill(0)(0), List.fill(5)(0), 2)
 
   def putDicesIn(sortIn: List[Int]): DiceCup = DiceCup(dropListEntriesFromList(sortIn, locked), inCup ++ sortIn, remDices)
 
@@ -57,7 +62,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
 
   def checkBigStreet(list: List[Int]): Boolean = mapToFrequency(list).max == 1 & list.max - list.min == 4
 
-  def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3
+  def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3 | list.distinct.sum.equals(19) | list.distinct.sum.equals(16)
 
   def checkKniffel(list: List[Int]): Boolean = mapToFrequency(list).max == 5
 
