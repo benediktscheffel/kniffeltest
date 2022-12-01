@@ -1,7 +1,6 @@
-/*
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel.model.dicecup
 
-import de.htwg.se.kniffel.model.dicecup.DiceCup
+import de.htwg.se.kniffel.model.dicecup.{DiceCup, DiceCupState, Running, Start}
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
@@ -23,7 +22,7 @@ class DiceCupSpec extends AnyWordSpec {
     "dices are thrown" should {
       val diceCup: DiceCup = new DiceCup()
       "contain two lists with all dices" in {
-        val thrownDiceCup: DiceCup = diceCup.newThrow()
+        val thrownDiceCup: DiceCup = diceCup.throwDices(diceCup)
         thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be(5)
         thrownDiceCup.inCup.foreach {
           s =>
@@ -43,6 +42,16 @@ class DiceCupSpec extends AnyWordSpec {
         val putIn: DiceCup = sortOut.putDicesIn(sortOut.locked.take(2))
         putIn.locked.size should be(0)
         putIn.inCup.size should be(5)
+      }
+      "not be inserted into the locked list if inOrOutList is no sublist of it" in {
+        val putOut: DiceCup = sortOut.putDicesOut(List(77, 435, 22))
+        putOut.inCup.size should be (3)
+        putOut.locked.size should be (2)
+      }
+      "not be inserted into the inCup list if inOrOutList is no sublist of it" in {
+        val putIn: DiceCup = sortOut.putDicesIn(List(77, 435, 22))
+        putIn.inCup.size should be (3)
+        putIn.locked.size should be (2)
       }
     }
     "list Entries are dropped from another list" should {
@@ -82,28 +91,27 @@ class DiceCupSpec extends AnyWordSpec {
         )
       }
     }
-    "calculating a sum with a predicate" should {
-      "be 0" in {
-        val diceCup = new DiceCup(List(1, 2, 3, 4, 5), List(), 2)
-        diceCup.getSum(diceCup.locked, diceCup.checkKniffel(diceCup.locked)) should be(0)
+    "when DiceCupState changed" should {
+      val diceCup: DiceCup = new DiceCup()
+      diceCup.state = new Start
+      "have the Start State" in {
+        diceCup.dice().throwDices(diceCup)
+        diceCup.inCup.size + diceCup.locked.size should be(5)
+        diceCup.inCup.foreach {
+          s =>
+            s should be < 7
+            s should be > 0
+        }
       }
-    }
-    "nextRound" should {
-      "return a new DiceCup" in {
-        var dc = DiceCup(List(1, 2, 3, 4, 5), List(), 2)
-        dc = dc.nextRound()
-        dc.inCup should be(List(0,0,0,0,0))
-        dc.locked.size should be(0)
-      }
-    }
-    "After 3 Throws newThrow" should {
-      "not return a different Dicecup" in {
-        var d = DiceCup(List(), List(0,0,0,0,0),-1)
-        d = d.newThrow()
-        d.remDices should be(-1)
-        d should be(DiceCup(List(), List(0,0,0,0,0),-1))
+      "have the Running State" in {
+        var diceCup1 = diceCup.dice().throwDices(diceCup)
+        diceCup1 = diceCup1.dice().throwDices(diceCup1)
+        diceCup1 = diceCup1.dice().throwDices(diceCup1)
+        val diceCup2 = diceCup1.dice().throwDices(diceCup1)
+        diceCup.dice().throwDices(diceCup1).toString() should be (diceCup2.toString())
       }
     }
   }
 }
-*/
+
+

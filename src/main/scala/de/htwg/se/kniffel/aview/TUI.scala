@@ -2,58 +2,60 @@ package de.htwg.se.kniffel
 package aview
 
 import controller.Controller
-import model.{Player, Move, Game}
+import aview.UI
+import de.htwg.se.kniffel.model.dicecup.DiceCup
+import model.{Field, Move, Player}
 
 import scala.io.StdIn.readLine
 import util.Observer
 
-class TUI(controller: Controller) extends Observer :
+class TUI(controller: Controller) extends UI(controller) :
   controller.add(this)
+  /*controller.add(this)*/
+  //controller.add(this)
+  //def this(controller: Controller) = this(UI(controller))
 
-  def run =
+  override def run(): Unit =
     println(controller.field.toString)
     inputLoop()
 
-  override def update = println(controller.field.toString + "\n" + controller.diceCup.toString())
+  def update = println(controller.field.toString + "\n" + controller.diceCup.toString() + controller.game.currentPlayer.playerName + " ist an der Reihe.")
 
-  def inputLoop(): Unit =
+
+   def inputLoop(): Unit =
     analyseInput(readLine) match
-      case None =>
+      case None =>  inputLoop()
       case Some(move) =>
-        val currentPlayer: Player = controller.game.currentPlayer
-        val currentPlayerIndex: Int = controller.game.playersList.indexOf(currentPlayer)
-        val currentSumList: List[Int] =
-          controller.game.getCurrentList
-        val indexList: List[Int] = List(6, 7, 8, 16, 17, 18)
-        controller.doAndPublish(controller.putValToField, Move(move.value, currentPlayerIndex, move.y))
-        if (move.y < 6)
-          controller.doAndPublish(controller.sum, move.value.toInt + currentSumList.head, currentSumList(3))
-        else
-          controller.doAndPublish(controller.sum, currentSumList.head, move.value.toInt + currentSumList(3))
-        for (l <- indexList)
-          controller.doAndPublish(
-            controller.putValToField,
-            Move(controller.game.getCurrentList(indexList.indexOf(l)).toString, currentPlayerIndex, l)
-          )
-        controller.doAndPublish(controller.nextRound())
-        controller.doAndPublish(controller.next().get)
+        controller.put(move)
+        multiFieldInput()
+        gameAndFieldInput()
+        diceCupInput()
     inputLoop()
 
 
   def analyseInput(input: String): Option[Move] =
     val list = input.split("\\s").toList
     list.head match
-      case "q" => None
-      case "po" => controller.doAndPublish(controller.putOut, list.tail.map(_.toInt)); None
-      case "pi" => controller.doAndPublish(controller.putIn, list.tail.map(_.toInt)); None
+      case "q" => println(controller.undoManager.undoStack.toString());None
+      case "po" => diceCupPutOut(list.tail.map(_.toInt)); None
+      case "pi" => diceCupPutIn(list.tail.map(_.toInt)); None
       case "d" => controller.doAndPublish(controller.dice()); None
+      case "u" => controller.undo;multiFieldInput(); None
+      case "r" => controller.redo;multiFieldInput2(); None
+      /*case "u" => controller.doAndPublish(controller.undo);None
+      case "r" => controller.doAndPublish(controller.redo);None*/
       case "wd" => {
+
         val posAndDesc = list.tail.head
         val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
         if (index.isDefined && controller.field.matrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
-          Some(Move(controller.diceCup.getResult(index.get).toString, 0, index.get))
+          val t = Some(Move(controller.diceCup.getResult(index.get).toString, controller.game.currentPlayer.playerID, index.get))
+          println(t.value)
+          t
         else
           println("Falsche Eingabe!"); None
       }
       case _ =>
         println("Falsche Eingabe!"); None
+
+
